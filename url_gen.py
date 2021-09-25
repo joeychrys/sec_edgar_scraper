@@ -42,25 +42,26 @@ def get_url(url_1, url_2):
     url_3 = url_3[1].split('\n')[0]
     return 'https://www.sec.gov/Archives/' + url_2 + '/' + url_3
 
+def main():
+    try:
+        master_index = get_master_index(year=year, quarter=quarter)
+    except Exception:
+        print("Master Index not found")
 
-try:
-    master_index = get_master_index(year=year, quarter=quarter)
-except Exception:
-    print("Master Index not found")
+    try:
+        url_1 = create_url_1(company=company, filing=filing, master_index=master_index)
+    except Exception:
+        print("url_1 was not able to be made")
 
-try:
-    url_1 = create_url_1(company=company, filing=filing, master_index=master_index)
-except Exception:
-    print("url_1 was not able to be made")
+    try:
+        url_2 = create_url_2(url_1=url_1)
+    except Exception:
+        print("url_2 was not able to be made")
 
-try:
-    url_2 = create_url_2(url_1=url_1)
-except Exception:
-    print("url_2 was not able to be made")
-
-try:
-    final_url = get_url(url_1=url_1, url_2=url_2)
-    print(final_url)
-except Exception as e:
-    print("final url was not able to be made")
-    print(e)
+    try:
+        final_url = get_url(url_1=url_1, url_2=url_2)
+        print(final_url)
+    except Exception as e:
+        print("final url was not able to be made")
+        print(e)
+    return final_url
