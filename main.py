@@ -8,7 +8,7 @@ year = 2020
 quarter = "QTR3"
 
 
-def get_master_index(year,quarter):
+def get_master_index(year, quarter):
     s = HTMLSession()
     master_index_url = f'https://www.sec.gov/Archives/edgar/full-index/{year}/{quarter}/master.idx'
     r = s.get(master_index_url).content
@@ -25,11 +25,13 @@ def create_url_1(company, filing, master_index):
             url = company_item_split[-1]
             return url
 
+
 def create_url_2(url_1):
     url_2 = url_1.split('-')
     url_2 = url_2[0] + url_2[1] + url_2[2]
     url_2 = url_2.split('.txt')[0]
     return url_2
+
 
 def get_url(url_1, url_2):
     s = HTMLSession()
@@ -41,17 +43,18 @@ def get_url(url_1, url_2):
     print(url_3)
     return 'https://www.sec.gov/Archives/' + url_2 + '/' + url_3
 
+
 try:
-    master_index = get_master_index(year=year, quarter= quarter)
+    master_index = get_master_index(year=year, quarter=quarter)
 except Exception:
     print("Master Index not found")
 
 try:
-    url_1 = create_url_1(company=company,filing=filing, master_index=master_index)
+    url_1 = create_url_1(company=company, filing=filing, master_index=master_index)
 except Exception:
     print("url_1 was not able to be made")
 
-try: 
+try:
     url_2 = create_url_2(url_1=url_1)
 except Exception:
     print("url_2 was not able to be made")
@@ -62,5 +65,3 @@ try:
 except Exception as e:
     print("final url was not able to be made")
     print(e)
-
-
